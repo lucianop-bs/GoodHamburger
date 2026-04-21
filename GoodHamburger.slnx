@@ -1,0 +1,14 @@
+<Solution>
+  <Folder Name="/Api/">
+    <Project Path="GoodHamburger.API/GoodHamburger.API.csproj" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="GoodHamburger.Application/GoodHamburger.Application.csproj" />
+  </Folder>
+  <Folder Name="/Domain/">
+    <Project Path="GoodHamburger.Domain/GoodHamburger.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="GoodHamburger.Infrastructure/GoodHamburger.Infrastructure.csproj" />
+  </Folder>
+</Solution>
