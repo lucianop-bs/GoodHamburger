@@ -6,7 +6,7 @@
         private readonly List<ItemPedido> _itens;
         public IReadOnlyCollection<ItemPedido> Itens => _itens.AsReadOnly();
         public decimal Subtotal { get; private set; }
-        public double Desconto { get; private set; }
+        public decimal Desconto { get; private set; }
         public decimal TotalFinal { get; private set; }
 
         public Pedido()
