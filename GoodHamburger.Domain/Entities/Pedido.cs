@@ -18,5 +18,31 @@
             TotalFinal = 0;
         }
 
+        public void AdicionarItem(Produto produto)
+        {
+            var item = new ItemPedido(produto.Id, produto.Categoria, produto.Preco);
+
+            _itens.Add(item);
+
+            CalcularSubtotal();
+        }
+
+        private void CalcularSubtotal()
+        {
+            Subtotal = _itens.Sum(i => i.PrecoUnitario);
+            CalcularTotalFinal();
+        }
+
+        private void CalcularTotalFinal()
+        {
+            decimal desconto = Subtotal * (Desconto / 100m);
+            TotalFinal = Subtotal - desconto;
+        }
+
+        private void AplicarDesconto(decimal desconto)
+        {
+            Desconto = desconto;
+            CalcularTotalFinal();
+        }
     }
 }
