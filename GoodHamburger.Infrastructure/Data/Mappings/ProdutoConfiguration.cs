@@ -10,6 +10,8 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
         {
             builder.ToTable("Produtos");
             builder.HasKey(p => p.Id);
+            builder.Property(p => p.Id)
+                   .ValueGeneratedOnAdd();  
             builder.Property(p => p.Nome)
                  .IsRequired()
                  .HasMaxLength(100);
@@ -18,6 +20,17 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
                  .HasConversion<string>();
             builder.Property(p => p.Preco)
                  .HasColumnType("decimal(10,2)");
+
+
+
+
+            builder.HasData(
+                new Produto(1,"X Burger", Domain.Enums.Categoria.Sanduiche, 5.00m),
+                new Produto(2,"X Egg", Domain.Enums.Categoria.Sanduiche, 4.50m),
+                new Produto(3,"X Bacon", Domain.Enums.Categoria.Sanduiche, 7.00m),
+                new Produto(4,"Batata Frita", Domain.Enums.Categoria.Acompanhamento, 2.00m),
+                new Produto(5,"Refrigerante", Domain.Enums.Categoria.Bebida, 2.50m)
+            );
         }
     }
 }

@@ -16,9 +16,6 @@ namespace GoodHamburger.Infrastructure.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public void Dispose()
-        {
-            _context.Dispose();
-        }
+    
     }
 }

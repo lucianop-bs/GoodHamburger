@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodHamburger.Infrastructure.Migrations
 {
     [DbContext(typeof(GoodHamburgerContext))]
-    [Migration("20260421200035_InitialCreate")]
+    [Migration("20260421223405_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -41,8 +41,8 @@ namespace GoodHamburger.Infrastructure.Migrations
                     b.Property<decimal>("PrecoUnitario")
                         .HasColumnType("decimal(10,2)");
 
-                    b.Property<Guid>("ProdutoId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("ProdutoId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -73,9 +73,11 @@ namespace GoodHamburger.Infrastructure.Migrations
 
             modelBuilder.Entity("GoodHamburger.Domain.Entities.Produto", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Categoria")
                         .IsRequired()
@@ -92,6 +94,43 @@ namespace GoodHamburger.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Produtos", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Categoria = "Sanduiche",
+                            Nome = "X Burger",
+                            Preco = 5.00m
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Categoria = "Sanduiche",
+                            Nome = "X Egg",
+                            Preco = 4.50m
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Categoria = "Sanduiche",
+                            Nome = "X Bacon",
+                            Preco = 7.00m
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Categoria = "Acompanhamento",
+                            Nome = "Batata Frita",
+                            Preco = 2.00m
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Categoria = "Bebida",
+                            Nome = "Refrigerante",
+                            Preco = 2.50m
+                        });
                 });
 
             modelBuilder.Entity("GoodHamburger.Domain.Entities.ItemPedido", b =>
