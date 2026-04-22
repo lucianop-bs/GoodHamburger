@@ -1,5 +1,6 @@
 ﻿using GoodHamburger.Domain.Interfaces;
 using GoodHamburger.Infrastructure.Data;
+using GoodHamburger.Infrastructure.Data.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +14,7 @@ namespace GoodHamburger.Infrastructure.IoC
             services.AddDbContext<GoodHamburgerContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
             return services;
         }
