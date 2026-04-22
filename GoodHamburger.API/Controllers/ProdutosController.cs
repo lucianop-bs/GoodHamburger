@@ -6,11 +6,11 @@ namespace GoodHamburger.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PedidosController : Controller
+    public class ProdutosController : Controller
     {
         private readonly IMediator _mediator;
 
-       public PedidosController(IMediator mediator) { 
+       public ProdutosController(IMediator mediator) { 
             _mediator = mediator;
        }
 

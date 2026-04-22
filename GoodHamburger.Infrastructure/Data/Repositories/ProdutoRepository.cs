@@ -18,9 +18,9 @@ namespace GoodHamburger.Infrastructure.Data.Repositories
 
         public async Task<List<Produto>> ObterTodosAsync()
         {
-            var produtos = await _context.Produtos.ToListAsync();
 
-            return produtos;
+            return await _context.Produtos.AsNoTracking().ToListAsync();
+
         }
     }
 }

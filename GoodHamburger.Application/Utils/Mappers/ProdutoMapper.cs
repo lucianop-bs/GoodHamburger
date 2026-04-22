@@ -10,9 +10,9 @@ namespace GoodHamburger.Application.Utils.Mappers
             return new ProdutoResponse(produto.Id, produto.Nome, produto.Categoria.ToString(), produto.Preco);
           
         }
-        public static List<ProdutoResponse> ToProdutoListaResponse(this List<Produto> produto)
+        public static List<ProdutoResponse> ToListaProdutosResponse(this List<Produto> produtos)
         {
-            return produto.Select(p => p.ToProdutoResponse()).ToList();
+            return produtos.Select(p => p.ToProdutoResponse()).ToList();
 
         }
     }
