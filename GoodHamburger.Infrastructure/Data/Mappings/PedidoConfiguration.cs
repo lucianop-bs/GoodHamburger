@@ -20,9 +20,13 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
 
             builder.Property(p => p.Desconto)
                .HasColumnType("decimal(18,2)");
+            builder.HasMany(p => p.Itens)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Metadata.FindNavigation(nameof(Pedido.Itens))
-            ?.SetPropertyAccessMode(PropertyAccessMode.Field);
+            builder.Navigation(p => p.Itens)
+                   .HasField("_itens")
+                   .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

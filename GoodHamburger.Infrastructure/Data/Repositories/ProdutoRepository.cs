@@ -1,13 +1,10 @@
 ﻿using GoodHamburger.Domain.Entities;
 using GoodHamburger.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GoodHamburger.Infrastructure.Data.Repositories
 {
-    public class ProdutoRepository : IProdutoRepository
+    public class ProdutoRepository : IProdutoReadRepository
     {
         private readonly GoodHamburgerContext _context;
 
@@ -16,11 +13,14 @@ namespace GoodHamburger.Infrastructure.Data.Repositories
             _context = context;
         }
 
-        public async Task<List<Produto>> ObterTodosAsync()
+        public async Task<List<Produto>> ObterProdutosPorIdsAsync(List<int> ids)
         {
+            return await _context.Produtos.AsNoTracking().Where(p => ids.Contains(p.Id)).ToListAsync();
+        }
 
+        public async Task<List<Produto>> ObterProdutosAsync()
+        {
             return await _context.Produtos.AsNoTracking().ToListAsync();
-
         }
     }
 }

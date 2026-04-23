@@ -17,6 +17,7 @@ namespace GoodHamburger.Domain.Entities
             Preco = preco;
         }
 
-        private Produto() { }
+        private Produto()
+        { }
     }
 }
