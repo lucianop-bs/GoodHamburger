@@ -4,7 +4,7 @@
     {
         public bool IsSuccess { get; }
 
-        public bool isFailure => !IsSuccess;
+        public bool IsFailure => !IsSuccess;
 
         public string ErrorMessage { get; }
 

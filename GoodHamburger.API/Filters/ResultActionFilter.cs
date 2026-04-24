@@ -13,13 +13,13 @@ namespace GoodHamburger.API.Filters
 
             if (executedContext.Result is ObjectResult objectResult && objectResult.Value is IResult result)
             {
-                if (result.isFailure)
+                if (result.IsFailure)
                 {
                     executedContext.Result = result.ErrorType switch
                     {
                         ErrorType.NotFound => new NotFoundObjectResult(new { erro = result.ErrorMessage }),
                         ErrorType.Validation => new BadRequestObjectResult(new { erro = result.ErrorMessage }),
-                        ErrorType.Conflicable => new ConflictObjectResult(new { erro = result.ErrorMessage }),
+                        ErrorType.Conflict => new ConflictObjectResult(new { erro = result.ErrorMessage }),
 
                         _ => new BadRequestObjectResult(new { erro = result.ErrorMessage })
                     };
