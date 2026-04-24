@@ -14,7 +14,9 @@ namespace GoodHamburger.Infrastructure.IoC
             services.AddDbContext<GoodHamburgerContext>(options => options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IProdutoRepository, ProdutoRepository>();
+            services.AddScoped<IProdutoReadRepository, ProdutoRepository>();
+            services.AddScoped<IPedidoReadRepository, PedidoRepository>();
+            services.AddScoped<IPedidoWriteRepository, PedidoRepository>();
 
             return services;
         }

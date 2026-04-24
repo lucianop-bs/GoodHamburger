@@ -7,18 +7,18 @@ namespace GoodHamburger.Application.Produtos.ObterProdutos
 {
     public class ObterProdutosQueryHandler : IRequestHandler<ObterProdutosQuery, List<ProdutoResponse>>
     {
-        private readonly IProdutoRepository _produtoRepository;
+        private readonly IProdutoReadRepository _produtoRepository;
 
-        public ObterProdutosQueryHandler(IProdutoRepository produtoRepository)
+        public ObterProdutosQueryHandler(IProdutoReadRepository produtoRepository)
         {
             _produtoRepository = produtoRepository;
         }
 
         public async Task<List<ProdutoResponse>> Handle(ObterProdutosQuery request, CancellationToken cancellationToken)
         {
-            var produtos = await _produtoRepository.ObterTodosAsync();
+            var produtos = await _produtoRepository.ObterProdutosAsync();
 
-           return produtos.ToProdutoListaResponse();
+            return produtos.ToListaProdutosResponse();
         }
     }
 }

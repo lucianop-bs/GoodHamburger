@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodHamburger.Infrastructure.Migrations
 {
     [DbContext(typeof(GoodHamburgerContext))]
-    [Migration("20260421223405_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260422214230_CriacaoInicial")]
+    partial class CriacaoInicial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

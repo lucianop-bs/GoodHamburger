@@ -27,19 +27,19 @@
             CalcularSubtotal();
         }
 
-        private void CalcularSubtotal()
+        public void CalcularSubtotal()
         {
             Subtotal = _itens.Sum(i => i.PrecoUnitario);
             CalcularTotalFinal();
         }
 
-        private void CalcularTotalFinal()
+        public void CalcularTotalFinal()
         {
             decimal desconto = Subtotal * (Desconto / 100m);
             TotalFinal = Subtotal - desconto;
         }
 
-        private void AplicarDesconto(decimal desconto)
+        public void AplicarDesconto(decimal desconto)
         {
             Desconto = desconto;
             CalcularTotalFinal();

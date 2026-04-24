@@ -10,9 +10,10 @@ namespace GoodHamburger.API.Controllers
     {
         private readonly IMediator _mediator;
 
-       public ProdutosController(IMediator mediator) { 
+        public ProdutosController(IMediator mediator)
+        {
             _mediator = mediator;
-       }
+        }
 
         [HttpGet]
         public async Task<IActionResult> ObterLista()

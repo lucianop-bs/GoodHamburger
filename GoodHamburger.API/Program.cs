@@ -10,7 +10,6 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication();
 builder.Services.AddOpenApi();
 
-
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();

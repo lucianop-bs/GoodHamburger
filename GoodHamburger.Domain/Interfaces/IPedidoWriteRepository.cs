@@ -2,8 +2,8 @@
 
 namespace GoodHamburger.Domain.Interfaces
 {
-    public interface IProdutoRepository
+    public interface IPedidoWriteRepository
     {
-        Task<List<Produto>> ObterTodosAsync();
+        Task AdicionarPedidoAsync(Pedido pedido);
     }
 }
