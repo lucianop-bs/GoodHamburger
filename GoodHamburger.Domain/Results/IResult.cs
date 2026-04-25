@@ -1,12 +1,15 @@
-﻿namespace GoodHamburger.Domain.Results
+﻿using GoodHamburger.Domain.Errors;
+namespace GoodHamburger.Domain.Results
 {
     public interface IResult
     {
         bool IsSuccess { get; }
-        bool isFailure { get; }
 
-        string ErrorMessage { get; }
-        ErrorType ErrorType { get; }
+        bool IsFailure { get; }
+
+        public IReadOnlyCollection<Error> Errors { get; }
+
+        Error Error { get; }
 
         object GetValue();
     }

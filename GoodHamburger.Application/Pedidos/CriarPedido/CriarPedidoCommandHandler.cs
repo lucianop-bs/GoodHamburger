@@ -2,6 +2,7 @@
 using GoodHamburger.Application.Utils.Responses;
 using GoodHamburger.Domain.Entities;
 using GoodHamburger.Domain.Enums;
+using GoodHamburger.Domain.Errors;
 using GoodHamburger.Domain.Interfaces;
 using GoodHamburger.Domain.Results;
 using MediatR;
@@ -30,7 +31,7 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
 
             if (produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1))
             {
-                throw new Exception("Não é permitido adicionar mais de um produto da mesma categoria.");
+                return Result<PedidoResponse>.Failure(PedidoError.PedidoComItemDuplicado);
             }
 
             var pedido = new Pedido();
