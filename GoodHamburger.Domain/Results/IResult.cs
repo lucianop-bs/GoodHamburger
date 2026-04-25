@@ -1,5 +1,4 @@
-﻿using GoodHamburger.Domain.Errors;
-namespace GoodHamburger.Domain.Results
+﻿namespace GoodHamburger.Domain.Results
 {
     public interface IResult
     {

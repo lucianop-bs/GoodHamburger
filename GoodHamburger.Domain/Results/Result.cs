@@ -1,6 +1,4 @@
-﻿using GoodHamburger.Domain.Errors;
-
-namespace GoodHamburger.Domain.Results
+﻿namespace GoodHamburger.Domain.Results
 {
     public class Result<T> : IResult
     {
@@ -10,11 +8,11 @@ namespace GoodHamburger.Domain.Results
 
         public IReadOnlyCollection<Error> Errors { get; }
 
-        public Error Error { get; }
+        public Error? Error { get; }
 
         private readonly T? _value;
 
-        private Result(bool isSuccess, T? value, Error error, IReadOnlyCollection<Error>? errors = null)
+        private Result(bool isSuccess, T? value, Error? error, IReadOnlyCollection<Error>? errors = null)
         {
             IsSuccess = isSuccess;
             _value = value;
@@ -24,9 +22,13 @@ namespace GoodHamburger.Domain.Results
 
         public object GetValue() => _value!;
 
-        public static Result<T> Success(T value) => new Result<T>(true, value, Error.None);
+        public static Result<T> Success(T value) => new Result<T>(true, value, Results.Error.None);
 
-        public static Result<T> Failure(Error error) => new Result<T>(false,default, error);
-        public static Result<T> Failure(IReadOnlyCollection<Error> errors) => new Result<T>(false, default, errors.First(), errors);
+        public static Result<T> Failure(Error error) => new Result<T>(false, default, error);
+
+        public static Result<T> Failure(IReadOnlyCollection<Error> errors)
+        {
+            return new Result<T>(false, default, errors.FirstOrDefault(), errors);
+        }
     }
 }

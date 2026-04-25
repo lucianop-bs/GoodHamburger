@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-
 namespace GoodHamburger.API.Filters
 {
     public class ResultActionFilter : IAsyncActionFilter
@@ -15,11 +14,12 @@ namespace GoodHamburger.API.Filters
             {
                 if (result.IsFailure)
                 {
-                   var statusCode = result.Error.ErrorType switch
+                    var statusCode = result.Error.ErrorType switch
                     {
                         ErrorType.NotFound => StatusCodes.Status404NotFound,
                         ErrorType.Validation => StatusCodes.Status400BadRequest,
                         ErrorType.Conflict => StatusCodes.Status409Conflict,
+                        ErrorType.Failure => StatusCodes.Status500InternalServerError,
 
                         _ => StatusCodes.Status400BadRequest
                     };
@@ -33,16 +33,15 @@ namespace GoodHamburger.API.Filters
                             status = statusCode,
                             error = result.Error.Message
                         };
-
                     }
                     else
                     {
                         respostaPersonalizada = new
                         {
                             status = statusCode,
-                            errors = result.Errors.Select(e => new 
+                            errors = result.Errors.Select(e => new
                             {
-                                status = e.ErrorType,
+                                status = (int)e.ErrorType,
                                 error = e.Message
                             }
                             )
@@ -52,7 +51,6 @@ namespace GoodHamburger.API.Filters
                     executedContext.Result = new ObjectResult(respostaPersonalizada)
                     {
                         StatusCode = statusCode,
-
                     };
                 }
                 else
