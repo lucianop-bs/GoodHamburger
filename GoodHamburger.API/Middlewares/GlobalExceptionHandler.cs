@@ -14,7 +14,6 @@ namespace GoodHamburger.API.Middlewares
                 Title = "Erro interno do servidor.",
                 Detail = "Falha Inesperada",
                 Instance = httpContext.Request.Path
-
             };
 
             httpContext.Response.StatusCode = problemDetails.Status.Value;
@@ -23,7 +22,6 @@ namespace GoodHamburger.API.Middlewares
             await httpContext.Response.WriteAsJsonAsync(problemDetails);
 
             return true;
-
         }
     }
 }

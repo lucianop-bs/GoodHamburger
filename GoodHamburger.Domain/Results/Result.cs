@@ -6,24 +6,29 @@
 
         public bool IsFailure => !IsSuccess;
 
-        public string ErrorMessage { get; }
+        public IReadOnlyCollection<Error> Errors { get; }
 
-        public ErrorType ErrorType { get; }
+        public Error? Error { get; }
 
         private readonly T? _value;
 
-        private Result(bool isSuccess, T? value, string errorMessage, ErrorType errorType)
+        private Result(bool isSuccess, T? value, Error? error, IReadOnlyCollection<Error>? errors = null)
         {
             IsSuccess = isSuccess;
             _value = value;
-            ErrorMessage = errorMessage;
-            ErrorType = errorType;
+            Error = error;
+            Errors = errors ?? new List<Error> { error };
         }
 
         public object GetValue() => _value!;
 
-        public static Result<T> Success(T value) => new Result<T>(true, value, string.Empty, default);
+        public static Result<T> Success(T value) => new Result<T>(true, value, Results.Error.None);
 
-        public static Result<T> Failure(string errorMessage, ErrorType errorType) => new Result<T>(false, default, errorMessage, errorType);
+        public static Result<T> Failure(Error error) => new Result<T>(false, default, error);
+
+        public static Result<T> Failure(IReadOnlyCollection<Error> errors)
+        {
+            return new Result<T>(false, default, errors.FirstOrDefault(), errors);
+        }
     }
 }

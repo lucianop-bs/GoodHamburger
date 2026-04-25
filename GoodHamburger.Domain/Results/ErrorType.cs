@@ -4,6 +4,7 @@
     {
         Validation = 400,
         NotFound = 404,
-        Conflicable = 409
+        Conflict = 409,
+        Failure = 500,
     }
 }
