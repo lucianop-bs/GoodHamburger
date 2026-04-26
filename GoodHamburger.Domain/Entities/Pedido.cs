@@ -1,4 +1,6 @@
-﻿namespace GoodHamburger.Domain.Entities
+﻿using GoodHamburger.Domain.Enums;
+
+namespace GoodHamburger.Domain.Entities
 {
     public class Pedido
     {
@@ -25,6 +27,7 @@
             _itens.Add(item);
 
             CalcularSubtotal();
+            AplicarDescontoAuto();
         }
 
         private void CalcularSubtotal()
@@ -56,6 +59,31 @@
             }
 
             CalcularSubtotal();
+            AplicarDescontoAuto();
+        }
+
+        public void AplicarDescontoAuto()
+        {
+            var temSanduiche = _itens.Any(i => i.Categoria == Categoria.Sanduiche);
+
+            var temBebida = _itens.Any(i => i.Categoria == Categoria.Bebida);
+
+            var temAcompanhamento = _itens.Any(i => i.Categoria == Categoria.Acompanhamento);
+
+            if (temSanduiche && temBebida && temAcompanhamento)
+            {
+                AplicarDesconto(20);
+            }
+            else if (temSanduiche && temBebida)
+            {
+                AplicarDesconto(15);
+            }
+            else if (temAcompanhamento && temSanduiche)
+            {
+                AplicarDesconto(10);
+            }
+            else
+                AplicarDesconto(0);
         }
     }
 }

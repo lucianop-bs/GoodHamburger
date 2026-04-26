@@ -46,28 +46,8 @@ namespace GoodHamburger.Application.Pedidos.AtualizarPedido
 
             pedido.AtualizarPedido(produtos);
 
-            var temSanduiche = pedido.Itens.Any(i => i.Categoria == Categoria.Sanduiche);
-            var temBebida = pedido.Itens.Any(i => i.Categoria == Categoria.Bebida);
-            var temAcompanhamento = pedido.Itens.Any(i => i.Categoria == Categoria.Acompanhamento);
-
-            if (temSanduiche && temBebida && temAcompanhamento)
-            {
-                pedido.AplicarDesconto(20);
-            }
-            else if (temSanduiche && temBebida)
-            {
-                pedido.AplicarDesconto(15);
-            }
-            else if (temAcompanhamento && temSanduiche)
-            {
-                pedido.AplicarDesconto(10);
-            }
-            else
-            {
-                pedido.AplicarDesconto(0);
-            }
-
             _pedidoWriteRepository.AtualizarPedido(pedido);
+
             await _unitOfWork.CommitAsync();
 
             return Result.Success();

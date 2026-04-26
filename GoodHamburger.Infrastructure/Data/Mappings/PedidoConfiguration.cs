@@ -15,7 +15,7 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
             builder.Property(p => p.TotalFinal).HasColumnType("decimal(18,2)");
             builder.Property(p => p.Desconto).HasColumnType("decimal(18,2)");
 
-            builder.OwnsMany(p => p.Itens, item =>  
+            builder.OwnsMany(p => p.Itens, item =>
             {
                 item.ToTable("ItensPedido");
                 item.WithOwner().HasForeignKey(i => i.PedidoId);
