@@ -9,7 +9,7 @@ using MediatR;
 
 namespace GoodHamburger.Application.Pedidos.CriarPedido
 {
-    public class CriarPedidoCommandHandler : IRequestHandler<CriarPedidoCommand, Result<PedidoResponse>>
+    public class CriarPedidoCommandHandler : IRequestHandler<CriarPedidoCommand, Result<CriarPedidoResponse>>
     {
         private readonly IProdutoReadRepository _produtoRepository;
         private readonly IPedidoWriteRepository _pedidoRepository;
@@ -25,18 +25,21 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<Result<PedidoResponse>> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
+        public async Task<Result<CriarPedidoResponse>> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
         {
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.ProdutosId);
 
-            if (produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1))
+            var produtoDuplicado = produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1);
+
+            if (produtoDuplicado)
             {
-                return Result<PedidoResponse>.Failure(PedidoError.PedidoComItemDuplicado);
+                return Result<CriarPedidoResponse>.Failure(PedidoError.PedidoComItemDuplicado);
             }
 
             var pedido = new Pedido();
 
             foreach (var produto in produtos)
+
                 pedido.AdicionarItem(produto);
 
             var temSanduiche = pedido.Itens.Any(i => i.Categoria == Categoria.Sanduiche);
@@ -62,9 +65,9 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
 
             await _unitOfWork.CommitAsync();
 
-            var response = pedido.ToPedidoResponse();
+            var response = pedido.ToCriarPedidoResponse();
 
-            return Result<PedidoResponse>.Success(response);
+            return Result<CriarPedidoResponse>.Success(response);
         }
     }
 }

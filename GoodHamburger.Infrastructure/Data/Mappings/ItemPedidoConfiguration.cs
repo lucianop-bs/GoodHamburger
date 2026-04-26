@@ -18,10 +18,10 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
                 .IsRequired()
                 .HasConversion<string>();
 
-            builder.HasOne<Pedido>()
-                .WithMany(p => p.Itens)
-                .HasForeignKey("PedidoId")
-                .OnDelete(DeleteBehavior.Cascade);
+            builder.HasOne(i => i.Produto)
+                .WithMany()
+                .HasForeignKey(i => i.ProdutoId)
+                .IsRequired();
         }
     }
 }

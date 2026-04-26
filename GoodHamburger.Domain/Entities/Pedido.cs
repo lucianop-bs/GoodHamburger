@@ -27,13 +27,13 @@
             CalcularSubtotal();
         }
 
-        public void CalcularSubtotal()
+        private void CalcularSubtotal()
         {
             Subtotal = _itens.Sum(i => i.PrecoUnitario);
             CalcularTotalFinal();
         }
 
-        public void CalcularTotalFinal()
+        private void CalcularTotalFinal()
         {
             decimal desconto = Subtotal * (Desconto / 100m);
             TotalFinal = Subtotal - desconto;
@@ -43,6 +43,19 @@
         {
             Desconto = desconto;
             CalcularTotalFinal();
+        }
+
+        public void AtualizarPedido(List<Produto> produtos)
+        {
+            _itens.Clear();
+
+            foreach (var produto in produtos)
+            {
+                var novoItem = new ItemPedido(produto.Id, produto.Categoria, produto.Preco);
+                _itens.Add(novoItem);
+            }
+
+            CalcularSubtotal();
         }
     }
 }

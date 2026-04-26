@@ -12,21 +12,22 @@ namespace GoodHamburger.Infrastructure.Data.Mappings
 
             builder.HasKey(p => p.Id);
 
-            builder.Property(p => p.Subtotal)
-                .HasColumnType("decimal(18,2)");
+            
+            builder.Property(p => p.Subtotal).HasColumnType("decimal(18,2)");
+            builder.Property(p => p.TotalFinal).HasColumnType("decimal(18,2)");
+            builder.Property(p => p.Desconto).HasColumnType("decimal(18,2)");
 
-            builder.Property(p => p.TotalFinal)
-               .HasColumnType("decimal(18,2)");
-
-            builder.Property(p => p.Desconto)
-               .HasColumnType("decimal(18,2)");
+            
             builder.HasMany(p => p.Itens)
                 .WithOne()
-                .OnDelete(DeleteBehavior.Cascade);
+                .HasForeignKey(i => i.PedidoId) 
+                .IsRequired() 
+                .OnDelete(DeleteBehavior.Cascade); 
 
+            
             builder.Navigation(p => p.Itens)
-                   .HasField("_itens")
-                   .UsePropertyAccessMode(PropertyAccessMode.Field);
+                .HasField("_itens")
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

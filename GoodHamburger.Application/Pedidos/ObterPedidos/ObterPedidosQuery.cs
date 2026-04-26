@@ -4,5 +4,5 @@ using MediatR;
 
 namespace GoodHamburger.Application.Pedidos.ObterPedidos
 {
-    public record class ObterPedidosQuery : IRequest<Result<List<PedidoResponse>>>;
+    public record ObterPedidosQuery : IRequest<Result<List<PedidoResponse>>>;
 }

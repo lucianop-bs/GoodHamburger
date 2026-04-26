@@ -4,5 +4,5 @@ using MediatR;
 
 namespace GoodHamburger.Application.Produtos.ObterProdutos
 {
-    public record class ObterProdutosQuery : IRequest<Result<List<ProdutoResponse>>>;
+    public record ObterProdutosQuery : IRequest<Result<List<ProdutoResponse>>>;
 }

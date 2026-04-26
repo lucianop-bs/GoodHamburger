@@ -32,7 +32,7 @@ namespace GoodHamburger.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid?>("PedidoId")
+                    b.Property<Guid>("PedidoId")
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("PrecoUnitario")
@@ -44,6 +44,8 @@ namespace GoodHamburger.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PedidoId");
+
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("ItensPedido", (string)null);
                 });
@@ -135,7 +137,16 @@ namespace GoodHamburger.Infrastructure.Migrations
                     b.HasOne("GoodHamburger.Domain.Entities.Pedido", null)
                         .WithMany("Itens")
                         .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GoodHamburger.Domain.Entities.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("GoodHamburger.Domain.Entities.Pedido", b =>

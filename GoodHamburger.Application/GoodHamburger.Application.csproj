@@ -7,15 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Utils\Requests\**" />
+    <EmbeddedResource Remove="Utils\Requests\**" />
+    <None Remove="Utils\Requests\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Pedidos\AtualizarPedido\GoodHamburgerContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="14.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GoodHamburger.Domain\GoodHamburger.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Utils\Requests\" />
   </ItemGroup>
 
 </Project>

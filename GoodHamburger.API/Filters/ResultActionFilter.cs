@@ -57,7 +57,7 @@ namespace GoodHamburger.API.Filters
                 {
                     var value = result.GetValue();
 
-                    executedContext.Result = value == null ? new NoContentResult() : new OkObjectResult(value);
+                    executedContext.Result = value == null! ? new NoContentResult() : new OkObjectResult(value);
                 }
             }
         }
