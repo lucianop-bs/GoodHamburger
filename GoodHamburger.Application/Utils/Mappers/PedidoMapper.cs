@@ -20,6 +20,7 @@ namespace GoodHamburger.Application.Utils.Mappers
         {
             return new ItemPedidoResponse(
                 item.ProdutoId,
+                item.Produto.Nome,
                 item.Categoria.ToString(),
                 item.PrecoUnitario);
         }
@@ -32,6 +33,11 @@ namespace GoodHamburger.Application.Utils.Mappers
                 pedido.Subtotal,
                 pedido.Desconto,
                 pedido.TotalFinal);
+        }
+
+        public static CriarPedidoResponse ToCriarPedidoResponse(this Pedido pedido)
+        {
+            return new CriarPedidoResponse(pedido.Id);
         }
     }
 }

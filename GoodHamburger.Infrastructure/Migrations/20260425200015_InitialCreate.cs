@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodHamburger.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoInicial : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -50,7 +50,7 @@ namespace GoodHamburger.Infrastructure.Migrations
                     ProdutoId = table.Column<int>(type: "integer", nullable: false),
                     Categoria = table.Column<string>(type: "text", nullable: false),
                     PrecoUnitario = table.Column<decimal>(type: "numeric(10,2)", nullable: false),
-                    PedidoId = table.Column<Guid>(type: "uuid", nullable: true)
+                    PedidoId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -59,6 +59,12 @@ namespace GoodHamburger.Infrastructure.Migrations
                         name: "FK_ItensPedido_Pedidos_PedidoId",
                         column: x => x.PedidoId,
                         principalTable: "Pedidos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ItensPedido_Produtos_ProdutoId",
+                        column: x => x.ProdutoId,
+                        principalTable: "Produtos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,6 +85,11 @@ namespace GoodHamburger.Infrastructure.Migrations
                 name: "IX_ItensPedido_PedidoId",
                 table: "ItensPedido",
                 column: "PedidoId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ItensPedido_ProdutoId",
+                table: "ItensPedido",
+                column: "ProdutoId");
         }
 
         /// <inheritdoc />
@@ -88,10 +99,10 @@ namespace GoodHamburger.Infrastructure.Migrations
                 name: "ItensPedido");
 
             migrationBuilder.DropTable(
-                name: "Produtos");
+                name: "Pedidos");
 
             migrationBuilder.DropTable(
-                name: "Pedidos");
+                name: "Produtos");
         }
     }
 }

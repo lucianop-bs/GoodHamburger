@@ -18,9 +18,37 @@ namespace GoodHamburger.Infrastructure.Data.Repositories
             await _context.Pedidos.AddAsync(pedido);
         }
 
+        public void AtualizarPedido(Pedido pedido)
+        {
+            
+            var itensAntigos = _context.ChangeTracker.Entries<ItemPedido>()
+                .Where(e => e.Property<Guid>("PedidoId").CurrentValue == pedido.Id)
+                .Select(e => e.Entity)
+                .ToList();
+
+            
+            _context.RemoveRange(itensAntigos);
+
+           
+            _context.AddRange(pedido.Itens);
+
+            
+            _context.Entry(pedido).State = EntityState.Modified;
+        }
+
+        public void DeletarPedido(Pedido pedido)
+        {
+            _context.Pedidos.Remove(pedido);
+        }
+
+        public async Task<Pedido?> ObterPedidoPorIdAsync(Guid id)
+        {
+            return await _context.Pedidos.Include(p => p.Itens).ThenInclude(i => i.Produto).FirstOrDefaultAsync(p => p.Id == id);
+        }
+
         public async Task<List<Pedido>> ObterPedidosAsync()
         {
-            return await _context.Pedidos.Include(p => p.Itens).AsNoTracking().ToListAsync();
+            return await _context.Pedidos.Include(p => p.Itens).ThenInclude(i => i.Produto).AsNoTracking().ToListAsync();
         }
     }
 }
