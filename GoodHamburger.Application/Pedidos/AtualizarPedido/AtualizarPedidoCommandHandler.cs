@@ -30,18 +30,18 @@ namespace GoodHamburger.Application.Pedidos.AtualizarPedido
             var pedido = await _pedidoReadRepository.ObterPedidoPorIdAsync(request.idPedido);
 
             if (pedido is null)
-                return Result<IResult>.Failure(PedidoError.PedidoNaoEncontrado);
+                return Result.Failure(PedidoError.PedidoNaoEncontrado);
 
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.idProdutos);
 
             if (produtos is null || produtos.Count == 0)
-                return Result<IResult>.Failure(ProdutoError.ProdutoNaoEncontrado);
+                return Result.Failure(ProdutoError.ProdutoNaoEncontrado);
 
             var produtoDuplicado = produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1);
 
             if (produtoDuplicado)
             {
-                return Result<IResult>.Failure(PedidoError.PedidoComItemDuplicado);
+                return Result.Failure(PedidoError.PedidoComItemDuplicado);
             }
 
             pedido.AtualizarPedido(produtos);

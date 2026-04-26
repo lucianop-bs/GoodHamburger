@@ -4,5 +4,5 @@ using MediatR;
 
 namespace GoodHamburger.Application.Pedidos.CriarPedido
 {
-    public record class CriarPedidoCommand(List<int> ProdutosId) : IRequest<Result<CriarPedidoResponse>>;
+    public record CriarPedidoCommand(List<int> ProdutosId) : IRequest<Result<CriarPedidoResponse>>;
 }

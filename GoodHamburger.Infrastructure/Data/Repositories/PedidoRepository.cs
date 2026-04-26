@@ -20,20 +20,12 @@ namespace GoodHamburger.Infrastructure.Data.Repositories
 
         public void AtualizarPedido(Pedido pedido)
         {
-            
-            var itensAntigos = _context.ChangeTracker.Entries<ItemPedido>()
-                .Where(e => e.Property<Guid>("PedidoId").CurrentValue == pedido.Id)
-                .Select(e => e.Entity)
-                .ToList();
+            var itensAntigos = _context.Set<ItemPedido>()
+                         .Where(i => i.PedidoId == pedido.Id)
+                         .ToList();
 
-            
-            _context.RemoveRange(itensAntigos);
-
-           
-            _context.AddRange(pedido.Itens);
-
-            
-            _context.Entry(pedido).State = EntityState.Modified;
+  
+            _context.Set<ItemPedido>().RemoveRange(itensAntigos);
         }
 
         public void DeletarPedido(Pedido pedido)
