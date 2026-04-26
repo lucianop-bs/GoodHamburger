@@ -26,6 +26,13 @@ namespace GoodHamburger.Infrastructure.Data.Repositories
 
   
             _context.Set<ItemPedido>().RemoveRange(itensAntigos);
+
+            foreach (var item in pedido.Itens)
+            {
+                _context.Entry(item).State = EntityState.Added;
+            }
+
+            _context.Entry(pedido).State = EntityState.Modified;
         }
 
         public void DeletarPedido(Pedido pedido)
