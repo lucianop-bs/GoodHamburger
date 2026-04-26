@@ -8,7 +8,6 @@ namespace GoodHamburger.Infrastructure.Data
     {
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<ItemPedido> ItensPedido { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

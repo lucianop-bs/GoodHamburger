@@ -3,6 +3,7 @@ using System;
 using GoodHamburger.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace GoodHamburger.Infrastructure.Migrations
 {
     [DbContext(typeof(GoodHamburgerContext))]
-    partial class GoodHamburgerContextModelSnapshot : ModelSnapshot
+    [Migration("20260426031002_RefatoracaoOwnsMany")]
+    partial class RefatoracaoOwnsMany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
