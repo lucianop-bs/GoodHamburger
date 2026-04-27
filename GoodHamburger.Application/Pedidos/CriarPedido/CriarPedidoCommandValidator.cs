@@ -11,7 +11,9 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
                 .NotEmpty()
                     .WithMessage(PedidoError.PedidoEmBranco.Message)
                 .NotNull()
-                    .WithMessage(PedidoError.PedidoNull.Message);
+                    .WithMessage(PedidoError.PedidoNull.Message)
+                .Must(ids => ids != null && ids.Distinct().Count() == ids.Count)
+                    .WithMessage(PedidoError.PedidoComItemDuplicado.Message);
 
             RuleForEach(x => x.ProdutosId)
                 .GreaterThan(0)

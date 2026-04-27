@@ -1,5 +1,4 @@
-﻿// GoodHamburger.Application/Utils/Behaviors/ValidationBehavior.cs
-using FluentValidation;
+﻿using FluentValidation;
 using GoodHamburger.Domain.Results;
 using MediatR;
 
@@ -27,8 +26,10 @@ namespace GoodHamburger.Application.Utils.Behaviors
 
             var context = new ValidationContext<TRequest>(request);
 
-            var failures = _validators
-                .Select(v => v.Validate(context))
+            var validationResults = await Task.WhenAll(
+                _validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+
+            var failures = validationResults
                 .SelectMany(r => r.Errors)
                 .Where(f => f != null)
                 .ToList();

@@ -33,8 +33,8 @@ namespace GoodHamburger.Application.Pedidos.AtualizarPedido
 
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.IdProdutos);
 
-            if (produtos is null || produtos.Count == 0)
-                return Result.Failure(ProdutoError.ProdutoNaoEncontrado);
+            if (produtos is null || produtos.Count == 0 || produtos.Count != request.IdProdutos.Count)
+                return Result.Failure(ProdutoError.ProdutosNaoEncontrados);
 
             var produtoDuplicado = produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1);
 
@@ -47,7 +47,10 @@ namespace GoodHamburger.Application.Pedidos.AtualizarPedido
 
             _pedidoWriteRepository.AtualizarPedido(pedido);
 
-            await _unitOfWork.CommitAsync();
+            var commitResult = await _unitOfWork.CommitAsync();
+
+            if (!commitResult)
+                return Result.Failure(BancoError.TransacaoFalhou);
 
             return Result.Success();
         }
