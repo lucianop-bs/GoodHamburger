@@ -26,7 +26,12 @@ namespace GoodHamburger.Application.Pedidos.DeletarPedido
                 return Result.Failure(PedidoError.PedidoNaoEncontrado);
 
             _pedidoWriteRepository.DeletarPedido(pedido);
-            await _unitOfWork.CommitAsync();
+
+            var commitResult = await _unitOfWork.CommitAsync();
+
+            if (!commitResult)
+                return Result.Failure(BancoError.TransacaoFalhou);
+
             return Result.Success();
         }
     }

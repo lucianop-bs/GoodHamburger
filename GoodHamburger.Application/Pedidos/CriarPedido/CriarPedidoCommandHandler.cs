@@ -26,14 +26,12 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
 
         public async Task<Result<CriarPedidoResponse>> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
         {
-            var temIdDuplicado = request.ProdutosId
-                .GroupBy(id => id)
-                .Any(g => g.Count() > 1);
-
-            if (temIdDuplicado)
-                return Result<CriarPedidoResponse>.Failure(PedidoError.PedidoComItemDuplicado);
+            
 
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.ProdutosId);
+
+            if (produtos is null || produtos.Count == 0 || produtos.Count != request.ProdutosId.Count)
+                return Result<CriarPedidoResponse>.Failure(ProdutoError.ProdutosNaoEncontrados);
 
             var produtoDuplicado = produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1);
 
@@ -45,12 +43,14 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
             var pedido = new Pedido();
 
             foreach (var produto in produtos)
-
                 pedido.AdicionarItem(produto);
 
             await _pedidoRepository.AdicionarPedidoAsync(pedido);
 
-            await _unitOfWork.CommitAsync();
+            var commitResult = await _unitOfWork.CommitAsync();
+
+            if (!commitResult)
+                return Result<CriarPedidoResponse>.Failure(BancoError.TransacaoFalhou);
 
             var response = pedido.ToCriarPedidoResponse();
 

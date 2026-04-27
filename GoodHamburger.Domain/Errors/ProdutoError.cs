@@ -13,7 +13,7 @@ namespace GoodHamburger.Domain.Errors
         public static Error ValoresNegativos =>
             new Error("IDs de produtos devem ser números positivos.", ErrorType.Validation);
 
-        public static Error IdsInvalidosNoCardapio(IEnumerable<int> idsInvalidos) =>
+        public static Error IdsInvalidosNoCardapio =>
             new Error("Produtos não existem no cardápio.",
                 ErrorType.Validation);
 
@@ -21,5 +21,5 @@ namespace GoodHamburger.Domain.Errors
             new Error(
                 "Nenhum dos produtos informados foi encontrado no cardápio.",
                 ErrorType.NotFound);
-    }t
+    }
 }
