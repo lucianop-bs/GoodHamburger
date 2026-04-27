@@ -3,6 +3,7 @@ using GoodHamburger.API.Middlewares;
 using GoodHamburger.Application.IoC;
 using GoodHamburger.Infrastructure.IoC;
 using Scalar.AspNetCore;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +21,12 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<GoodHamburger.Infrastructure.Data.GoodHamburgerContext>();
+    context.Database.Migrate();
+}
 
 if (app.Environment.IsDevelopment())
 {

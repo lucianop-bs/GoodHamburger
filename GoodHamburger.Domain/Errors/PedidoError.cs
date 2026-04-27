@@ -9,7 +9,7 @@ namespace GoodHamburger.Domain.Errors
                 ErrorType.Validation);
 
         public static Error PedidoNaoEncontrado =>
-            new Error("Pedido não encontrado",
+            new Error("Pedido não encontrado.",
                 ErrorType.NotFound);
 
         public static Error PedidoEmBranco =>

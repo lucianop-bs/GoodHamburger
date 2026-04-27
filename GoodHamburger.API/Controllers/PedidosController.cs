@@ -30,7 +30,7 @@ namespace GoodHamburger.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> ObterPedidoPorId(Guid id)
+        public async Task<IActionResult> ObterPedidoPorId([FromRoute] Guid id)
         {
             var query = new BuscarPedidoPorIdQuery(id);
 
@@ -54,15 +54,15 @@ namespace GoodHamburger.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos, [FromRoute] Guid Id)
+        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> produtos, [FromRoute] Guid id)
         {
-            var resultado = await _mediator.Send(new AtualizarPedidoCommand(Id, Produtos));
+            var resultado = await _mediator.Send(new AtualizarPedidoCommand(id, produtos));
 
             return Ok(resultado);
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletarPedido(Guid id)
+        public async Task<IActionResult> DeletarPedido([FromRoute] Guid id)
         {
             var command = new DeletarPedidoCommand(id);
             var resultado = await _mediator.Send(command);

@@ -43,5 +43,9 @@
         public static Result Success() => new Result(true, Results.Error.None);
 
         public static Result Failure(Error error) => new Result(false, error);
+
+        public static Result Failures(IReadOnlyCollection<Error> errors) => 
+            new Result(false, errors.FirstOrDefault(), errors);
+
     }
 }

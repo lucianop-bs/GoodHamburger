@@ -49,7 +49,7 @@ namespace GoodHamburger.Application.Utils.Behaviors
             var resultGenericType = typeof(Result<>).MakeGenericType(innerType);
 
             var failureMethod = resultGenericType.GetMethod(
-                "Failure",
+                "Failures",
                 System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static,
                 binder: null,
                 types: new[] { typeof(Error) },

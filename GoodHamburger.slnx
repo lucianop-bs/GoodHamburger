@@ -11,4 +11,5 @@
   <Folder Name="/Infrastructure/">
     <Project Path="GoodHamburger.Infrastructure/GoodHamburger.Infrastructure.csproj" />
   </Folder>
+  <Project Path="GoodHamburger.Tests/GoodHamburger.Tests.csproj" />
 </Solution>

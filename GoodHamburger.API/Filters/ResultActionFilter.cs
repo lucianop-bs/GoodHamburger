@@ -49,10 +49,8 @@ namespace GoodHamburger.API.Filters
                         };
                     }
 
-                    executedContext.Result = new ObjectResult(respostaPersonalizada)
-                    {
-                        StatusCode = statusCode,
-                    };
+                    objectResult.Value = respostaPersonalizada;
+                    objectResult.StatusCode = statusCode;
                 }
                 else
                 {
