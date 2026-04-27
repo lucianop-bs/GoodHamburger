@@ -5,13 +5,16 @@ namespace GoodHamburger.Domain.Errors
     public static class ProdutoError
     {
         public static Error ProdutoNaoEncontrado =>
-            new Error("Produto não encontrado.", ErrorType.NotFound);
+            new Error("Produto não encontrado.",
+                ErrorType.NotFound);
 
         public static Error IdInvalido =>
-            new Error("ID do produto é inválido.", ErrorType.Validation);
+            new Error("ID do produto é inválido.",
+                ErrorType.Validation);
 
         public static Error ValoresNegativos =>
-            new Error("IDs de produtos devem ser números positivos.", ErrorType.Validation);
+            new Error("IDs de produtos devem ser números positivos.",
+                ErrorType.Validation);
 
         public static Error IdsInvalidosNoCardapio =>
             new Error("Produtos não existem no cardápio.",

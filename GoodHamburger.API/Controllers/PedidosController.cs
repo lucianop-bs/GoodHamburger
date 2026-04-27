@@ -54,7 +54,7 @@ namespace GoodHamburger.API.Controllers
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos,[FromRoute] Guid Id)
+        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos, [FromRoute] Guid Id)
         {
             var resultado = await _mediator.Send(new AtualizarPedidoCommand(Id, Produtos));
 

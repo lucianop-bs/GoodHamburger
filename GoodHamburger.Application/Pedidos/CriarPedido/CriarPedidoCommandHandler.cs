@@ -26,8 +26,6 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
 
         public async Task<Result<CriarPedidoResponse>> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
         {
-            
-
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.ProdutosId);
 
             if (produtos is null || produtos.Count == 0 || produtos.Count != request.ProdutosId.Count)

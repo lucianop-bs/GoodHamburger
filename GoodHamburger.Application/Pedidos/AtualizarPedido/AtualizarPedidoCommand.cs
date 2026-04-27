@@ -3,5 +3,8 @@ using MediatR;
 
 namespace GoodHamburger.Application.Pedidos.AtualizarPedido
 {
-    public record AtualizarPedidoCommand(Guid IdPedido, List<int> IdProdutos) : IRequest<Result>;
+    public record AtualizarPedidoCommand(
+        Guid IdPedido,
+        List<int> IdProdutos)
+        : IRequest<Result>;
 }
