@@ -1,5 +1,4 @@
-﻿using GoodHamburger.Domain.Enums;
-using GoodHamburger.Domain.Errors;
+﻿using GoodHamburger.Domain.Errors;
 using GoodHamburger.Domain.Interfaces;
 using GoodHamburger.Domain.Results;
 using MediatR;
@@ -27,12 +26,12 @@ namespace GoodHamburger.Application.Pedidos.AtualizarPedido
 
         public async Task<Result> Handle(AtualizarPedidoCommand request, CancellationToken cancellationToken)
         {
-            var pedido = await _pedidoReadRepository.ObterPedidoPorIdAsync(request.idPedido);
+            var pedido = await _pedidoReadRepository.ObterPedidoPorIdAsync(request.IdPedido);
 
             if (pedido is null)
                 return Result.Failure(PedidoError.PedidoNaoEncontrado);
 
-            var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.idProdutos);
+            var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.IdProdutos);
 
             if (produtos is null || produtos.Count == 0)
                 return Result.Failure(ProdutoError.ProdutoNaoEncontrado);

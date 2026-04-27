@@ -1,7 +1,6 @@
 ﻿using GoodHamburger.Application.Utils.Mappers;
 using GoodHamburger.Application.Utils.Responses;
 using GoodHamburger.Domain.Entities;
-using GoodHamburger.Domain.Enums;
 using GoodHamburger.Domain.Errors;
 using GoodHamburger.Domain.Interfaces;
 using GoodHamburger.Domain.Results;
@@ -27,6 +26,13 @@ namespace GoodHamburger.Application.Pedidos.CriarPedido
 
         public async Task<Result<CriarPedidoResponse>> Handle(CriarPedidoCommand request, CancellationToken cancellationToken)
         {
+            var temIdDuplicado = request.ProdutosId
+                .GroupBy(id => id)
+                .Any(g => g.Count() > 1);
+
+            if (temIdDuplicado)
+                return Result<CriarPedidoResponse>.Failure(PedidoError.PedidoComItemDuplicado);
+
             var produtos = await _produtoRepository.ObterProdutosPorIdsAsync(request.ProdutosId);
 
             var produtoDuplicado = produtos.GroupBy(p => p.Categoria).Any(g => g.Count() > 1);

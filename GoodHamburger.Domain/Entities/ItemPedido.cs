@@ -7,7 +7,7 @@ namespace GoodHamburger.Domain.Entities
         public Guid Id { get; private set; }
         public Guid PedidoId { get; private set; }
         public int ProdutoId { get; private set; }
-        public Produto Produto { get; private set; }
+        public Produto Produto { get; private set; } = null!;
         public Categoria Categoria { get; private set; }
         public decimal PrecoUnitario { get; private set; }
 

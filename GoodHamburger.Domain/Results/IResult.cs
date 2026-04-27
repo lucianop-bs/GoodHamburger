@@ -8,7 +8,7 @@
 
         public IReadOnlyCollection<Error> Errors { get; }
 
-        Error Error { get; }
+        public Error? Error { get; }
 
         object GetValue();
     }
