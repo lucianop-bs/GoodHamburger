@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GoodHamburger.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class ProdutosController : Controller
+    [Route("api/[controller]")]
+    public class ProdutosController : ControllerBase
     {
         private readonly IMediator _mediator;
 

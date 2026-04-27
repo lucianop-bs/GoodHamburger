@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GoodHamburger.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
-    public class PedidosController : Controller
+    [Route("api/[controller]")]
+    public class PedidosController : ControllerBase
     {
         private readonly IMediator _mediator;
 
@@ -47,11 +47,14 @@ namespace GoodHamburger.API.Controllers
             if (resultado.IsFailure)
                 return Ok(resultado);
 
-            return CreatedAtAction(nameof(ObterPedidoPorId), new { id = resultado.Value?.Id }, resultado);
+            return CreatedAtAction(
+                        nameof(ObterPedidoPorId),
+                        new { id = resultado.Value?.Id },
+                        resultado);
         }
 
         [HttpPatch("{id}")]
-        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos, Guid Id)
+        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos,[FromRoute] Guid Id)
         {
             var resultado = await _mediator.Send(new AtualizarPedidoCommand(Id, Produtos));
 
