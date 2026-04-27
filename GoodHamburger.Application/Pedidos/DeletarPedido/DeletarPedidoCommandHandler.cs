@@ -23,7 +23,7 @@ namespace GoodHamburger.Application.Pedidos.DeletarPedido
             var pedido = await _pedidoRepository.ObterPedidoPorIdAsync(request.Id);
 
             if (pedido is null)
-                return Result<IResult>.Failure(PedidoError.PedidoNaoEncontrado);
+                return Result.Failure(PedidoError.PedidoNaoEncontrado);
 
             _pedidoWriteRepository.DeletarPedido(pedido);
             await _unitOfWork.CommitAsync();

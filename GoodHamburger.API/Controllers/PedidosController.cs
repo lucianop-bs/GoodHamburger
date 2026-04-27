@@ -44,13 +44,16 @@ namespace GoodHamburger.API.Controllers
         {
             var resultado = await _mediator.Send(command);
 
-            return Ok(resultado);
+            if (resultado.IsFailure)
+                return Ok(resultado);
+
+            return CreatedAtAction(nameof(ObterPedidoPorId), new { id = resultado.Value?.Id }, resultado);
         }
 
-        [HttpPatch]
-        public async Task<IActionResult> AtualizarPedido([FromBody] AtualizarPedidoCommand command)
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> Produtos, Guid Id)
         {
-            var resultado = await _mediator.Send(command);
+            var resultado = await _mediator.Send(new AtualizarPedidoCommand(Id, Produtos));
 
             return Ok(resultado);
         }

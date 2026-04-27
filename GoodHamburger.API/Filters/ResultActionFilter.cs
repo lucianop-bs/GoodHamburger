@@ -1,6 +1,7 @@
 ﻿using GoodHamburger.Domain.Results;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using IResult = GoodHamburger.Domain.Results.IResult;
 
 namespace GoodHamburger.API.Filters
 {
@@ -10,11 +11,11 @@ namespace GoodHamburger.API.Filters
         {
             var executedContext = await next();
 
-            if (executedContext.Result is ObjectResult objectResult && objectResult.Value is Domain.Results.IResult result)
+            if (executedContext.Result is ObjectResult objectResult && objectResult.Value is IResult result)
             {
                 if (result.IsFailure)
                 {
-                    var statusCode = result.Error.ErrorType switch
+                    var statusCode = result.Error?.ErrorType switch
                     {
                         ErrorType.NotFound => StatusCodes.Status404NotFound,
                         ErrorType.Validation => StatusCodes.Status400BadRequest,
@@ -31,7 +32,7 @@ namespace GoodHamburger.API.Filters
                         respostaPersonalizada = new
                         {
                             status = statusCode,
-                            error = result.Error.Message
+                            error = result?.Error?.Message
                         };
                     }
                     else
@@ -57,7 +58,11 @@ namespace GoodHamburger.API.Filters
                 {
                     var value = result.GetValue();
 
-                    executedContext.Result = value == null! ? new NoContentResult() : new OkObjectResult(value);
+                    var originalStatusCode = objectResult.StatusCode ?? StatusCodes.Status200OK;
+
+                    executedContext.Result = value == null!
+                        ? new NoContentResult()
+                        : new ObjectResult(value) { StatusCode = originalStatusCode };
                 }
             }
         }
