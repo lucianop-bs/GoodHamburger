@@ -2,27 +2,17 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodHamburger.API.Controllers
+namespace GoodHamburger.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class ProdutosController(IMediator mediator) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class ProdutosController : ControllerBase
+    [HttpGet]
+    public async Task<IActionResult> ObterLista()
     {
-        private readonly IMediator _mediator;
-
-        public ProdutosController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> ObterLista()
-        {
-            var query = new ObterProdutosQuery();
-
-            var resultado = await _mediator.Send(query);
-
-            return Ok(resultado);
-        }
+        var query = new ObterProdutosQuery();
+        var resultado = await mediator.Send(query);
+        return Ok(resultado);
     }
 }

@@ -1,51 +1,49 @@
-﻿namespace GoodHamburger.Domain.Results
+﻿namespace GoodHamburger.Domain.Results;
+
+public class Result<T> : Result
 {
-    public class Result<T> : Result
+    public T? Value { get; }
+
+    private Result(bool isSuccess, T? value, Error? error, IReadOnlyCollection<Error>? errors = null) : base(isSuccess, error, errors)
     {
-        public T? Value { get; }
-
-        private Result(bool isSuccess, T? value, Error? error, IReadOnlyCollection<Error>? errors = null) : base(isSuccess, error, errors)
-        {
-            Value = value;
-        }
-
-        public override object GetValue() => Value!;
-
-        public static Result<T> Success(T value) => new Result<T>(true, value, Results.Error.None);
-
-        public new static Result<T> Failure(Error error) => new Result<T>(false, default, error);
-
-        public static Result<T> Failures(IReadOnlyCollection<Error> errors)
-        {
-            return new Result<T>(false, default, errors.FirstOrDefault(), errors);
-        }
+        Value = value;
     }
 
-    public class Result : IResult
+    public override object GetValue() => Value!;
+
+    public static Result<T> Success(T value) => new Result<T>(true, value, Results.Error.None);
+
+    public new static Result<T> Failure(Error error) => new Result<T>(false, default, error);
+
+    public new static Result<T> Failures(IReadOnlyCollection<Error> errors)
     {
-        public bool IsSuccess { get; }
-
-        public bool IsFailure => !IsSuccess;
-
-        public IReadOnlyCollection<Error> Errors { get; }
-
-        public Error? Error { get; }
-
-        protected Result(bool isSuccess, Error? error, IReadOnlyCollection<Error>? errors = null)
-        {
-            IsSuccess = isSuccess;
-            Error = error;
-            Errors = errors ?? [error!];
-        }
-
-        public virtual object GetValue() => null!;
-
-        public static Result Success() => new Result(true, Results.Error.None);
-
-        public static Result Failure(Error error) => new Result(false, error);
-
-        public static Result Failures(IReadOnlyCollection<Error> errors) => 
-            new Result(false, errors.FirstOrDefault(), errors);
-
+        return new Result<T>(false, default, errors.FirstOrDefault(), errors);
     }
+}
+
+public class Result : IResult
+{
+    public bool IsSuccess { get; }
+
+    public bool IsFailure => !IsSuccess;
+
+    public IReadOnlyCollection<Error> Errors { get; }
+
+    public Error? Error { get; }
+
+    protected Result(bool isSuccess, Error? error, IReadOnlyCollection<Error>? errors = null)
+    {
+        IsSuccess = isSuccess;
+        Error = error;
+        Errors = errors ?? [error!];
+    }
+
+    public virtual object GetValue() => null!;
+
+    public static Result Success() => new Result(true, Results.Error.None);
+
+    public static Result Failure(Error error) => new Result(false, error);
+
+    public static Result Failures(IReadOnlyCollection<Error> errors) => 
+        new Result(false, errors.FirstOrDefault(), errors);
 }

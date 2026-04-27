@@ -6,68 +6,60 @@ using GoodHamburger.Application.Pedidos.ObterPedidos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
-namespace GoodHamburger.API.Controllers
+namespace GoodHamburger.API.Controllers;
+
+[ApiController]
+[Route("api/[controller]")]
+public class PedidosController(IMediator mediator) : ControllerBase
 {
-    [ApiController]
-    [Route("api/[controller]")]
-    public class PedidosController : ControllerBase
+    [HttpGet]
+    public async Task<IActionResult> ObterPedidos()
     {
-        private readonly IMediator _mediator;
+        var query = new ObterPedidosQuery();
 
-        public PedidosController(IMediator mediator)
-        {
-            _mediator = mediator;
-        }
+        var resultado = await mediator.Send(query);
 
-        [HttpGet]
-        public async Task<IActionResult> ObterPedidos()
-        {
-            var query = new ObterPedidosQuery();
+        return Ok(resultado);
+    }
 
-            var resultado = await _mediator.Send(query);
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> ObterPedidoPorId([FromRoute] Guid id)
+    {
+        var query = new BuscarPedidoPorIdQuery(id);
 
+        var resultado = await mediator.Send(query);
+
+        return Ok(resultado);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> CriarPedido([FromBody] CriarPedidoCommand command)
+    {
+        var resultado = await mediator.Send(command);
+
+        if (resultado.IsFailure)
             return Ok(resultado);
-        }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObterPedidoPorId([FromRoute] Guid id)
-        {
-            var query = new BuscarPedidoPorIdQuery(id);
+        return CreatedAtAction(
+                    nameof(ObterPedidoPorId),
+                    new { id = resultado.Value?.Id },
+                    resultado);
+    }
 
-            var resultado = await _mediator.Send(query);
+    [HttpPatch("{id:guid}")]
+    public async Task<IActionResult> AtualizarPedido([FromBody] List<int> produtos, [FromRoute] Guid id)
+    {
+        var resultado = await mediator.Send(new AtualizarPedidoCommand(id, produtos));
 
-            return Ok(resultado);
-        }
+        return Ok(resultado);
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> CriarPedido([FromBody] CriarPedidoCommand command)
-        {
-            var resultado = await _mediator.Send(command);
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> DeletarPedido([FromRoute] Guid id)
+    {
+        var command = new DeletarPedidoCommand(id);
+        var resultado = await mediator.Send(command);
 
-            if (resultado.IsFailure)
-                return Ok(resultado);
-
-            return CreatedAtAction(
-                        nameof(ObterPedidoPorId),
-                        new { id = resultado.Value?.Id },
-                        resultado);
-        }
-
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> AtualizarPedido([FromBody] List<int> produtos, [FromRoute] Guid id)
-        {
-            var resultado = await _mediator.Send(new AtualizarPedidoCommand(id, produtos));
-
-            return Ok(resultado);
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeletarPedido([FromRoute] Guid id)
-        {
-            var command = new DeletarPedidoCommand(id);
-            var resultado = await _mediator.Send(command);
-
-            return Ok(resultado);
-        }
+        return Ok(resultado);
     }
 }
